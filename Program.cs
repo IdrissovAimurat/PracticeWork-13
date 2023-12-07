@@ -16,7 +16,9 @@ namespace PracticeWork13
             Console.WriteLine(rand.Next(1, 30));
 
             //Task2();
-            Task3();
+            //Task3();
+            //Task4();
+            Task5();
         }
         /// <summary>
         /// 1.	Создать коллекцию List <int>. 
@@ -132,6 +134,54 @@ namespace PracticeWork13
             {
                 Console.Write(i + " ");
             }
+        }
+        static void Task4()
+        {
+            string filePath = @"C:\temp\employees.txt";
+
+            try
+            {
+                var employees = File.ReadAllLines(filePath).Select(line => new Employee(line)).ToList();
+
+                var lowerSalaryEmployees = employees.Where(e => e.Salary < 10000);
+                var higherSalaryEmployees = employees.Where(e => e.Salary >= 10000);
+
+                foreach (var employee in lowerSalaryEmployees.Concat(higherSalaryEmployees))
+                {
+                    Console.WriteLine(employee);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Произошла ошибка: " + ex.Message);
+            }
+        }
+        static void Task5()
+        {
+            DiskKatalog catalog = new DiskKatalog();
+
+            Disk cd1 = new Disk("Исполнитель 1");
+            cd1.AddSong("Песня 1");
+            cd1.AddSong("Песня 2");
+            catalog.AddCD("CD1", cd1);
+
+            Disk cd2 = new Disk("Исполнитель 2");
+            cd2.AddSong("Песня 3");
+            catalog.AddCD("CD2", cd2);
+
+            catalog.PrintCatalog();
+
+            Console.WriteLine("\nПоиск по исполнителю 'Исполнитель 1':");
+            catalog.SearchByArtist("Исполнитель 1");
+
+            Console.WriteLine("\nСодержимое CD1:");
+            catalog.PrintCD("CD1");
+
+            cd1.RemoveSong("Песня 1");
+            catalog.RemoveCD("CD2");
+
+            Console.WriteLine("\nКаталог после изменений:");
+            catalog.PrintCatalog();
         }
     }
 }
